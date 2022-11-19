@@ -5,17 +5,20 @@ const gameHistorySchema = new mongoose.Schema({
     type: String,
     require: [true, "gameId must be provided"],
   },
-  type: {
-    type: String, // prawdopodbnie jakis enum tego typu
+  gameType: {
+    type: String,
     enum: {
       values: ["ranked", "normal"],
       message: "{VALUE} is not supported",
     },
-    require: [true, "type name must be provided"],
+    require: [true, "gameType must be provided"],
   },
   players: {
-    type: Array, //playerId
-    require: [true, "player info must be provided"],
+    type: {
+      player1: Number,
+      player2: Number,
+    }, //playerId
+    require: [true, "players info must be provided"],
   },
   length: {
     type: Date,
