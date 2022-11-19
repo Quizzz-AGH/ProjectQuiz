@@ -1,31 +1,36 @@
 const Account = require("../models/account");
 const { StatusCodes } = require("http-status-codes");
+const { BadRequestError } = require("../errors");
 
 const register = async (req, res) => {
   const user = await Account.create({ ...req.body });
   const token = user.createJWT();
   res
     .status(StatusCodes.CREATED)
-    .json({ user: { username: user.name }, token });
+    .json({ user: { accountId: user._id, nickname: user.nickname }, token });
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
+  const { username, password } = req.body;
+  if (!username || !password) {
     throw new BadRequestError("Please provide email and password");
   }
-  const user = await Account.findOne({ email });
+  const user = await Account.findOne({ username });
   if (!user) {
     throw new UnauthenticatedError("Invalid credentials");
   }
-  const isPasswordCorrect = await user.ComparePassword(password);
+
+  const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
     throw new UnauthenticatedError("Invalid credentials");
   }
 
   const token = user.createJWT();
 
-  res.status(StatusCodes.OK).json({ user: { name: user.name }, token });
+  console.log(user);
+  res
+    .status(StatusCodes.OK)
+    .json({ user: { accountId: user._id, nickname: user.nickname }, token });
 };
 
 const logout = async (req, res) => {};

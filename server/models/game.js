@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const gameSchema = new mongoose.Schema({
   gameId: {
     type: Number,
-    require: [true, "accountId must be provided"],
+    // require: [true, "accountId must be provided"],
   },
   gameType: {
     type: String,

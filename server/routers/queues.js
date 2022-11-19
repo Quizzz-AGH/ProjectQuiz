@@ -8,6 +8,6 @@ const {
 
 router.route("/normal").post(createNormalGame);
 router.route("/ranked").post(createRankedGame);
-router.route("/join/gameCode").post(joinNormalGame);
+router.route("/join/:gameCode").post(joinNormalGame);
 
 module.exports = router;
