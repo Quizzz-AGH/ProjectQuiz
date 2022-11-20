@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const accountSchema = new mongoose.Schema({
-  nickname: {
+  username: {
     type: String,
     require: [true, "nickname must be provided"],
     maxlength: 50,
@@ -38,6 +38,11 @@ const accountSchema = new mongoose.Schema({
 });
 
 accountSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+accountSchema.pre("update", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });

@@ -3,30 +3,27 @@ require("express-async-errors");
 const port = process.env.PORT || 3000;
 
 const express = require("express");
-const server = express();
+const app = express();
+const http = require("http");
+const server = http.createServer(app);
 const connectDatabase = require("./database/connect");
 
-server.use(express.json());
-
 const usersRouter = require("./routers/users");
-server.use("/users", usersRouter);
-
 const rankingsRouter = require("./routers/rankings");
-server.use("/rankings", rankingsRouter);
-
 const queuesRouter = require("./routers/queues");
-server.use("/queues", queuesRouter);
-
 const questionsRouter = require("./routers/questions");
-server.use("/questions", questionsRouter);
-
 const gamesRouter = require("./routers/games");
-server.use("/games", gamesRouter);
-
 const accountsRouter = require("./routers/accounts");
-server.use("/accounts", accountsRouter);
 
-server.get("/", (req, res) => {
+app.use(express.json());
+app.use("/users", usersRouter);
+app.use("/rankings", rankingsRouter);
+app.use("/queues", queuesRouter);
+app.use("/questions", questionsRouter);
+app.use("/games", gamesRouter);
+app.use("/accounts", accountsRouter);
+
+app.get("/", (req, res) => {
   res.send("test");
 });
 

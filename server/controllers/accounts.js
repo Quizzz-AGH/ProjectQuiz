@@ -1,6 +1,6 @@
 const Account = require("../models/account");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError } = require("../errors");
+const { BadRequestError, UnauthenticatedError } = require("../errors");
 
 const register = async (req, res) => {
   const user = await Account.create({ ...req.body });
@@ -27,10 +27,9 @@ const login = async (req, res) => {
 
   const token = user.createJWT();
 
-  console.log(user);
   res
     .status(StatusCodes.OK)
-    .json({ user: { accountId: user._id, nickname: user.nickname }, token });
+    .json({ user: { accountId: user._id, username: user.username }, token });
 };
 
 const logout = async (req, res) => {};
