@@ -21,6 +21,10 @@ const lobbySchema = new mongoose.Schema({
     },
     require: [true, "gameType must be provided"],
   },
+  questions: {
+    type: [Object],
+    require: [true, "provide questions"],
+  },
 });
 
 lobbySchema.pre("save", async function () {
