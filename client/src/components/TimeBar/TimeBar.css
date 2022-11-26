@@ -1,0 +1,26 @@
+.progressContainer {
+    position: relative;
+    height: 20px;
+    width: 100%;
+    background-color: #e0e0de;
+    border-radius: 50px;
+    text-align: center;
+    /*margin: 50px*/
+}
+
+.progressFilling {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    background-color: cornflowerblue;
+    border-radius: inherit;
+    transition: width 1s ease-in-out;
+}
+
+.progressLabel {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    color: white;
+}

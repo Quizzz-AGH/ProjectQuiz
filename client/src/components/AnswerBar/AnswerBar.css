@@ -1,0 +1,15 @@
+.answerBar {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(10, 1fr);
+    grid-auto-rows: 1fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    max-width: 500px;
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+.answerButton {
+    background-color: #ccc;
+}
