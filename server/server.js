@@ -5,6 +5,7 @@ const port = process.env.PORT || 3000;
 const express = require("express");
 const app = express();
 const http = require("http");
+const cors = require("cors");
 const server = http.createServer(app);
 const connectDatabase = require("./database/connect");
 const authenticate = require("./middleware/authentication");
@@ -17,6 +18,7 @@ const gamesRouter = require("./routers/games");
 const accountsRouter = require("./routers/accounts");
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/users", authenticate, usersRouter);
 app.use("/rankings", authenticate, rankingsRouter);

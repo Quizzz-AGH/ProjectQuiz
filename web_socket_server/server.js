@@ -2,6 +2,7 @@ require("dotenv").config;
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
+const cors = require("cors");
 
 const { getLobbyInfo } = require("./utils/wrapped-http-requests");
 const {
@@ -12,6 +13,8 @@ const {
 // funkcja do brania informacji na temat lobby
 
 const app = express();
+app.use(cors());
+
 const server = http.createServer(app);
 const io = socketio(server);
 
