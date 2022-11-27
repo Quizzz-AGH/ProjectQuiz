@@ -42,14 +42,9 @@ accountSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-accountSchema.pre("update", async function () {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
-
 accountSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.name },
+    { userId: this._id, username: this.username, isAdmin: this.isAdmin },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_LIFETIME,

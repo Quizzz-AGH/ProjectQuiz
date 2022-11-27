@@ -5,8 +5,10 @@ const port = process.env.PORT || 3000;
 const express = require("express");
 const app = express();
 const http = require("http");
+const cors = require("cors");
 const server = http.createServer(app);
 const connectDatabase = require("./database/connect");
+const authenticate = require("./middleware/authentication");
 
 const usersRouter = require("./routers/users");
 const rankingsRouter = require("./routers/rankings");
@@ -16,11 +18,13 @@ const gamesRouter = require("./routers/games");
 const accountsRouter = require("./routers/accounts");
 
 app.use(express.json());
-app.use("/users", usersRouter);
-app.use("/rankings", rankingsRouter);
-app.use("/queues", queuesRouter);
-app.use("/questions", questionsRouter);
-app.use("/games", gamesRouter);
+app.use(cors());
+
+app.use("/users", authenticate, usersRouter);
+app.use("/rankings", authenticate, rankingsRouter);
+app.use("/queues", authenticate, queuesRouter);
+app.use("/questions", authenticate, questionsRouter);
+app.use("/games", authenticate, gamesRouter);
 app.use("/accounts", accountsRouter);
 
 app.get("/", (req, res) => {
