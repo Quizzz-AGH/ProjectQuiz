@@ -18,13 +18,18 @@ const getAllUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { accountId } = req.params;
-  const user = await Account.findOneAndUpdate({ _id: accountId }, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  const { newPassword, newUsername } = req.body;
+
+  const user = await Account.findOne({ _id: accountId });
+
   if (!user) {
     throw new BadRequestError(`No user with id: ${accountId}`);
   }
+
+  if (newUsername) user.username = newUsername;
+  if (newPassword) user.password = newPassword;
+
+  await user.save();
   res.status(StatusCodes.OK).json({ user });
 };
 
