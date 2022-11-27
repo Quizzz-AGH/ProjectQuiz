@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { pickRandomQuestions } = require("../utils/pick-questions");
 
 const lobbySchema = new mongoose.Schema({
   code: {
@@ -28,6 +29,8 @@ const lobbySchema = new mongoose.Schema({
 });
 
 lobbySchema.pre("save", async function () {
+  this.questions = await pickRandomQuestions();
+
   const actualLobbys = await mongoose.model("Lobby", lobbySchema).find();
   let randomCode = -1;
 

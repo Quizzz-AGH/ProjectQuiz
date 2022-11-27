@@ -7,12 +7,18 @@ const createNormalGame = async (req, res) => {
   if (!playerId) {
     throw new BadRequestError("please provide proper lobby data");
   }
+
+  //console.log(req.user.userId);
+  // tutaj z tokenu jwt bedziemy brali id użytkownika ktory dołącza i będziemy wrzucać to do bazki
+
   const newLobby = {
-    playerId: playerId,
+    playerId: [playerId],
     gameType: "normal",
   };
 
   const lobby = await Lobby.create({ ...newLobby });
+
+  //tutaj po stronie klienta będzie działo się przekierowanie na serwer gry
   res.status(StatusCodes.CREATED).json({ lobby });
 };
 
@@ -32,10 +38,16 @@ const createRankedGame = async (req, res) => {
 
 const joinNormalGame = async (req, res) => {
   const { gameCode } = req.params;
+
+  //console.log(req.user.userId);
+  // tutaj z tokenu jwt bedziemy brali id użytkownika ktory dołącza i będziemy wrzucać to do bazki
+
   candidateLobby = await Lobby.findOne({ code: gameCode });
   if (!candidateLobby) {
     throw new BadRequestError("invalid lobby code");
   }
+
+  //tutaj po stronie klienta będzie działo się przekierowanie na serwer gry
 
   res.status(StatusCodes.OK).json(candidateLobby);
 };
