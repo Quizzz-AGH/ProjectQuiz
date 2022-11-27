@@ -44,7 +44,7 @@ accountSchema.pre("save", async function () {
 
 accountSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.name, isAdmin: this.isAdmin },
+    { userId: this._id, username: this.username, isAdmin: this.isAdmin },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_LIFETIME,

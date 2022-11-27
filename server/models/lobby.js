@@ -7,9 +7,9 @@ const lobbySchema = new mongoose.Schema({
     // require: [true, "accountId must be provided"],
     unique: true,
   },
-  playerId: {
-    type: String, //playerId
-    require: [true, "playerId must be provided"],
+  playersId: {
+    type: [String], //playersId
+    require: [true, "playersId must be provided"],
   },
   timeInQueue: {
     type: Date,
@@ -29,6 +29,8 @@ const lobbySchema = new mongoose.Schema({
 });
 
 lobbySchema.pre("save", async function () {
+  if (this.playersId.length !== 1) return; // obejscie do zmiany w przyszlosci, potrzebowalem tego zeby kod generwoal sie tylko przy tworzeniu
+
   this.questions = await pickRandomQuestions();
 
   const actualLobbys = await mongoose.model("Lobby", lobbySchema).find();

@@ -4,10 +4,12 @@ const {
   createNormalGame,
   createRankedGame,
   joinNormalGame,
+  getLobbyInfo,
 } = require("../controllers/queues");
 
 router.route("/normal").post(createNormalGame);
 router.route("/ranked").post(createRankedGame);
 router.route("/join/:gameCode").post(joinNormalGame);
+router.route("/:gameCode").get(getLobbyInfo);
 
 module.exports = router;
