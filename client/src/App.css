@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+}
+
+.backdrop {
+  margin: auto;
+  padding: 20px;
+  width: 30%;
+  background-color: aquamarine;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

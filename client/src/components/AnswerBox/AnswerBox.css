@@ -1,0 +1,17 @@
+.answerBox {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    max-width: 500px;
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+.answer {
+    background-color: #ccc;
+    width: 20px;
+    height: 20px;
+}
