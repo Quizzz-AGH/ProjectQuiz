@@ -9,6 +9,7 @@ const cors = require("cors");
 const server = http.createServer(app);
 const connectDatabase = require("./database/connect");
 const authenticate = require("./middleware/authentication");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 const usersRouter = require("./routers/users");
 const rankingsRouter = require("./routers/rankings");
@@ -26,6 +27,8 @@ app.use("/queues", authenticate, queuesRouter);
 app.use("/questions", authenticate, questionsRouter);
 app.use("/games", authenticate, gamesRouter);
 app.use("/accounts", accountsRouter);
+
+app.use(errorHandlerMiddleware);
 
 app.get("/", (req, res) => {
   res.send("test");
