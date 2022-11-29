@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from "react";
 
-import QuestionLog from "../QuestionLog/QuestionLog";
+import QuestionLog from "../../components/QuestionLog/QuestionLog";
+import {useAuth} from "../../hooks/useAuth";
 
 function AdminPanel() {
 
     const [questions, setQuestions] = useState([]);
+    const { token } = useAuth();
 
     useEffect(() => {
         async function getQuestions() {
             const response = await fetch('/questions', {
-                method: "GET"
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (!response.ok) {
