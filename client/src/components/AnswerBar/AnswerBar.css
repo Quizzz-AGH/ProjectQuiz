@@ -6,7 +6,7 @@
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     max-width: 500px;
-    justify-items: stretch;
+    justify-items: center;
     align-items: stretch;
 }
 

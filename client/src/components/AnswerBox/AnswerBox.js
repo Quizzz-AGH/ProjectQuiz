@@ -2,11 +2,15 @@ import React from "react";
 
 import './AnswerBox.css';
 
-function AnswerBox({ answers }) {
+function AnswerBox({ pickAnswer, answers }) {
 
     const AnswerList = () => {
-        return answers.map((answer) => {
-            return <button className={'answerButton'}>{answer}</button>;
+        return [...Array(4)].map((_, i) => {
+            return <button
+                        className={'answerButton'}
+                        onClick={() => pickAnswer(i)}>
+                        {answers[i]}
+                    </button>;
         })
     }
 

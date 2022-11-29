@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect } from 'react';
+import jwt_decode from 'jwt-decode';
 
 export const AuthContext = createContext(null);
 
@@ -8,7 +9,7 @@ export const authReducer = (state, action) => {
             return {
                 accountId: action.payload?.user?.accountId,
                 username: action.payload?.user?.username,
-                isAdmin: action.payload?.user?.isAdmin,
+                isAdmin: jwt_decode(action.payload?.token)?.isAdmin,
                 token: action.payload?.token
             };
         case 'logout':

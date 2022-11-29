@@ -1,17 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {useAuth} from "../../hooks/useAuth";
+import {useGameContext} from "../../hooks/useGameContext";
 
 function LobbyPanel({setPanel}) {
 
     const navigate = useNavigate();
-    const { token } = useAuth();
+    const { accountId } = useAuth();
+    const { setGameState } = useGameContext();
 
     return (
         <>
-            <button onClick={() => navigate('/game')}>Utwórz grę</button>
-            <button>Dołącz do gry</button>
-            { token && <button>Gra rankingowa</button> }
+            <button onClick={() => {
+                setGameState('create');
+                navigate('/game');
+            }}>Utwórz grę</button>
+            <button onClick={() => {
+                setGameState('join');
+                navigate('/game');
+            }}>Dołącz do gry</button>
+            { accountId && <button>Gra rankingowa</button> }
             <button onClick={setPanel('main')}>Powrót</button>
         </>
     )

@@ -4,7 +4,7 @@ checkIfCorrectAnswer = (answerInfo, gameInfo) => {
   );
 
   var player = gameInfo.players.filter(
-    (players) => player._id === answerInfo.playerId
+    (player) => player._id === answerInfo.playerId
   );
 
   if (answerInfo.chosenAnswer === question.correctAnswer) {
@@ -16,7 +16,7 @@ checkIfCorrectAnswer = (answerInfo, gameInfo) => {
 };
 
 checkIfPlayerStillLives = (playerId, gameInfo) => {
-  var player = gameInfo.players.filter((players) => player._id === playerId);
+  var player = gameInfo.players.filter((player) => player._id === playerId);
 
   return player.healthPoints > 0;
 };

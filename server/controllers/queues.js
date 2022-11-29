@@ -41,7 +41,7 @@ const joinNormalGame = async (req, res) => {
   const { userId } = req.user;
   // tutaj z tokenu jwt bedziemy brali id użytkownika ktory dołącza i będziemy wrzucać to do bazki
 
-  candidateLobby = await Lobby.findOne({ code: gameCode });
+  let candidateLobby = await Lobby.findOne({ code: gameCode });
   if (!candidateLobby) {
     throw new BadRequestError("invalid lobby code");
   }

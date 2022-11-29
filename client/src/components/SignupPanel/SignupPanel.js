@@ -1,12 +1,19 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { useSignup } from "../../hooks/useSignup";
+import {useAuth} from "../../hooks/useAuth";
 
 const SignupPanel = ({ setPanel }) => {
     const [form, setForm] = useState({
         username: '',
         password: ''
     });
+    const { accountId } = useAuth();
     const { signup, error, isLoading } = useSignup();
+
+    useEffect(() => {
+        if (accountId)
+            setPanel('main')();
+    }, [accountId]);
 
     const handleChange = (field) => (e) => {
         setForm({...form, [field]: e.target.value});
@@ -16,8 +23,6 @@ const SignupPanel = ({ setPanel }) => {
         e.preventDefault();
 
         await signup(form.username, form.password);
-
-        setPanel('main')();
     }
 
     return (

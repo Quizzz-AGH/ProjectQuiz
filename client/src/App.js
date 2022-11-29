@@ -3,16 +3,16 @@ import { Route, Routes } from "react-router-dom";
 
 import './App.css';
 
-import MainMenu from "./components/MainMenu/MainMenu";
-import Game from "./components/Game/Game";
-import AdminPanel from "./components/AdminPanel/AdminPanel";
+import MainMenu from "./pages/MainMenu/MainMenu";
+import Admin from "./pages/Admin/Admin";
+import Game from "./pages/Game/Game";
 
 function App() {
     return (
             <div className="App">
                 <Routes>
                     <Route exact path={"/"} element={<MainMenu />}/>
-                    <Route path={"/admin"} element={<AdminPanel />}/>
+                    <Route path={"/admin"} element={<Admin />}/>
                     <Route path={"/game"} element={<Game />}/>
                 </Routes>
             </div>

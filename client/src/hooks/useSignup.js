@@ -22,7 +22,7 @@ export const useSignup = () => {
 
         if (!response.ok) {
             setIsLoading(false);
-            setError(json.error);
+            setError(json.msg);
         } else {
             sessionStorage.setItem('user', JSON.stringify(json));
             dispatch({ type: 'login', payload: json });
