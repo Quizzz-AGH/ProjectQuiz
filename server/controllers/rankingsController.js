@@ -1,7 +1,7 @@
-const Account = require("../models/account");
+const User = require("../models/user");
 
 const getAllRankings = async (req, res) => {
-  const { nickname, rankingScore } = await Account.find();
+  const { nickname, rankingScore } = await User.find();
 
   res.status(200).json({ nickname, rankingScore });
 };

@@ -1,11 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {
-  createNormalGame,
-  createRankedGame,
-  joinNormalGame,
-  getLobbyInfo,
-} = require("../controllers/queues");
+const { createNormalGame, createRankedGame, joinNormalGame, getLobbyInfo } = require("../controllers/queuesController");
 
 router.route("/normal").post(createNormalGame);
 router.route("/ranked").post(createRankedGame);

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const playersListSchema = require("./playersList");
 
 const gameHistorySchema = new mongoose.Schema({
   gameId: {
@@ -14,21 +15,21 @@ const gameHistorySchema = new mongoose.Schema({
     require: [true, "gameType must be provided"],
   },
   players: {
-    type: {
-      player1: Number,
-      player2: Number,
-    }, //playerId
+    type: playersListSchema,
     require: [true, "players info must be provided"],
   },
   length: {
     type: Date,
   },
-  answers: {
-    type: Array,
+  questions: {
+    type: [mongoose.Schema.ObjectId],
+    ref: "Question",
+    require: [true, "questions must be provided"],
   },
-  winner: {
-    type: String, //playerId
-  },
+  // winner: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "User", //playerId
+  // },
   eloChanged: {
     type: Number,
   },

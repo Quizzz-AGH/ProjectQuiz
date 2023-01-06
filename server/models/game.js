@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const playersListSchema = require("./playersList");
 
 const gameSchema = new mongoose.Schema({
   gameId: {
@@ -14,10 +15,7 @@ const gameSchema = new mongoose.Schema({
     require: [true, "gameType must be provided"],
   },
   players: {
-    type: {
-      player1: Number,
-      player2: Number,
-    }, //playerId
+    type: playersListSchema,
     require: [true, "players info must be provided"],
   },
   questions: {

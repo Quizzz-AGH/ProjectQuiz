@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 const { pickRandomQuestions } = require("../utils/pick-questions");
+const playersListSchema = require("./playersList");
 
 const lobbySchema = new mongoose.Schema({
   code: {
     type: Number,
-    // require: [true, "accountId must be provided"],
+    require: [true, "game code must be provided"],
     unique: true,
   },
-  playersId: {
-    type: [String], //playersId
-    require: [true, "playersId must be provided"],
+  players: {
+    type: playersListSchema,
+    require: [true, "players must be provided"],
   },
   timeInQueue: {
     type: Date,
@@ -23,7 +24,8 @@ const lobbySchema = new mongoose.Schema({
     require: [true, "gameType must be provided"],
   },
   questions: {
-    type: [Object],
+    type: [mongoose.Schema.ObjectId],
+    ref: "Question",
     require: [true, "provide questions"],
   },
 });

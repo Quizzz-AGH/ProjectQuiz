@@ -5,7 +5,7 @@ const {
   getAllQuestions,
   updateQuestion,
   deleteQuestion,
-} = require("../controllers/questions");
+} = require("../controllers/questionsController");
 
 router.route("/").get(getAllQuestions).post(createQuestion);
 router.route("/:questionId").patch(updateQuestion).delete(deleteQuestion);
