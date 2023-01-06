@@ -4,6 +4,7 @@ require("express-async-errors");
 const port = process.env.PORT || 3000;
 
 //packages
+const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
 const http = require("http");
@@ -27,13 +28,14 @@ const authenticationRouter = require("./routers/authenticationRouter");
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use("/users", authenticate, usersRouter);
 app.use("/rankings", authenticate, rankingsRouter);
 app.use("/queues", authenticate, queuesRouter);
 app.use("/questions", authenticate, questionsRouter);
 app.use("/games", authenticate, gamesRouter);
-app.use("/accounts", authenticationRouter);
+app.use("/authentication", authenticationRouter);
 
 app.use(errorHandlerMiddleware);
 

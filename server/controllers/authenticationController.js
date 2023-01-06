@@ -1,39 +1,52 @@
 const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, UnauthenticatedError } = require("../errors");
+const { attachCookiesToResponse, createTokenUser } = require("../utils");
 
 const register = async (req, res) => {
-  const user = await Account.create({ ...req.body });
-  const token = user.createJWT();
+  const { name, email, password } = req.body;
 
-  res
-    .status(StatusCodes.CREATED)
-    .json({ user: { accountId: user._id, nickname: user.nickname }, token });
+  const emailAlreadyExists = await User.findOne({ email });
+  if (emailAlreadyExists) {
+    throw new CustomError.BadRequestError("Email already exists");
+  }
+
+  const isFirstAccount = (await User.countDocuments({})) === 0;
+  const role = isFirstAccount ? "admin" : "user";
+  const user = await User.create({ name, email, password, role });
+  const tokenUser = createTokenUser(user);
+
+  attachCookiesToResponse({ res, user: tokenUser });
+  res.status(StatusCodes.CREATED).json({ success: true, user });
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    throw new BadRequestError("Please provide email and password");
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new CustomError.BadRequestError("Please provide email and password");
   }
-  const user = await Account.findOne({ username });
+  const user = await User.findOne({ email });
   if (!user) {
-    throw new UnauthenticatedError("Invalid credentials");
+    throw new CustomError.UnauthenticatedError("Invalid credentials");
   }
+  const isPasswordCorrect = await user.comparePasswords(password);
 
-  const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    throw new UnauthenticatedError("Invalid credentials");
+    throw new CustomError.UnauthenticatedError("Invalid credentials");
   }
+  const tokenUser = createTokenUser(user);
 
-  const token = user.createJWT();
-
-  res
-    .status(StatusCodes.OK)
-    .json({ user: { accountId: user._id, username: user.username }, token });
+  attachCookiesToResponse({ res, user: tokenUser });
+  res.status(StatusCodes.OK).json({ success: true, user: tokenUser });
 };
 
-const logout = async (req, res) => {};
+const logout = async (req, res) => {
+  res.cookie("token", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ success: true });
+};
 
 module.exports = {
   register,

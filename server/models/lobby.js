@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { pickRandomQuestions } = require("../utils/pick-questions");
+const { pickRandomQuestions } = require("../utils");
 const playersListSchema = require("./playersList");
 
 const lobbySchema = new mongoose.Schema({

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -9,6 +10,15 @@ const userSchema = new mongoose.Schema({
     maxlength: 50,
     minlength: 3,
     unique: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: [true, "please provide an email"],
+    validate: {
+      validator: validator.isEmail,
+      message: "Please provide a valid email address",
+    },
   },
   password: {
     type: String,
@@ -32,7 +42,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["user", "admin"],
+    enum: ["user", "admin", "guest"],
     require: [true, "role must be provided"],
     default: "user",
   },
