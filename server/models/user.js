@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const e = require("express");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -46,6 +47,7 @@ const userSchema = new mongoose.Schema({
     require: [true, "role must be provided"],
     default: "user",
   },
+  expiresAt: { type: Date, expires: "4h", default: Date.now },
 });
 
 userSchema.pre("save", async function () {
