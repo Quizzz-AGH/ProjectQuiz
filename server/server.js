@@ -20,7 +20,7 @@ const errorHandlerMiddleware = require("./middleware/errorHandler");
 // routers
 const usersRouter = require("./routers/usersRouter");
 const rankingsRouter = require("./routers/rankingsRouter");
-const queuesRouter = require("./routers/queuesRouter");
+const lobbyRouter = require("./routers/lobbyRouter");
 const questionsRouter = require("./routers/questionsRouter");
 const gamesRouter = require("./routers/gamesRouter");
 const authenticationRouter = require("./routers/authenticationRouter");
@@ -31,7 +31,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use("/users", usersRouter);
 app.use("/rankings", rankingsRouter);
-app.use("/queues", queuesRouter);
+app.use("/lobby", lobbyRouter);
 app.use("/questions", questionsRouter);
 app.use("/games", gamesRouter);
 app.use("/authentication", authenticationRouter);

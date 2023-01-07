@@ -26,10 +26,15 @@ const gameHistorySchema = new mongoose.Schema({
     ref: "Question",
     require: [true, "questions must be provided"],
   },
-  // winner: {
-  //   type: mongoose.Schema.ObjectId,
-  //   ref: "User", //playerId
-  // },
+  owner: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User", //playerId
+  },
+  result: {
+    type: String,
+    enum: { values: ["win", "lose", "draw"], message: "{VALUE} is not supported" },
+    require: [true, "result must be provided"],
+  },
   eloChanged: {
     type: Number,
   },
