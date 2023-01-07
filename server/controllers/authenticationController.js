@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError, UnauthenticatedError } = require("../errors");
+const CustomError = require("../errors");
 const { attachCookiesToResponse, createTokenUser } = require("../utils");
 
 const register = async (req, res) => {
@@ -29,13 +29,14 @@ const login = async (req, res) => {
   if (!user) {
     throw new CustomError.UnauthenticatedError("Invalid credentials");
   }
-  const isPasswordCorrect = await user.comparePasswords(password);
+  const isPasswordCorrect = await user.comparePassword(password);
 
   if (!isPasswordCorrect) {
     throw new CustomError.UnauthenticatedError("Invalid credentials");
   }
-  const tokenUser = createTokenUser(user);
 
+  const tokenUser = createTokenUser(user);
+  console.log(tokenUser);
   attachCookiesToResponse({ res, user: tokenUser });
   res.status(StatusCodes.OK).json({ success: true, user: tokenUser });
 };

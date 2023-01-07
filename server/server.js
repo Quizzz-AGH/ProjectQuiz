@@ -15,8 +15,7 @@ const server = http.createServer(app);
 const connectDatabase = require("./database/connect");
 
 // middleware
-const authenticate = require("./middleware/authentication");
-const errorHandlerMiddleware = require("./middleware/error-handler");
+const errorHandlerMiddleware = require("./middleware/errorHandler");
 
 // routers
 const usersRouter = require("./routers/usersRouter");
@@ -30,11 +29,11 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser(process.env.JWT_SECRET));
 
-app.use("/users", authenticate, usersRouter);
-app.use("/rankings", authenticate, rankingsRouter);
-app.use("/queues", authenticate, queuesRouter);
-app.use("/questions", authenticate, questionsRouter);
-app.use("/games", authenticate, gamesRouter);
+app.use("/users", usersRouter);
+app.use("/rankings", rankingsRouter);
+app.use("/queues", queuesRouter);
+app.use("/questions", questionsRouter);
+app.use("/games", gamesRouter);
 app.use("/authentication", authenticationRouter);
 
 app.use(errorHandlerMiddleware);
