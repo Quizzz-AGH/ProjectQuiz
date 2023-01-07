@@ -24,6 +24,7 @@ const questionSchema = new mongoose.Schema(
     },
     answers: {
       type: [singleAnswerSchema],
+      validate: [arrayLimit, "answers must be between 2 and 4"],
       required: [true, "answers must be provided"],
     },
     timesAsked: {
@@ -39,4 +40,7 @@ const questionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+function arrayLimit(val) {
+  return val.length <= 4 && val.length >= 2;
+}
 module.exports = mongoose.model("Question", questionSchema);

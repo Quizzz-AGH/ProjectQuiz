@@ -5,9 +5,19 @@ const {
   getAllQuestions,
   updateQuestion,
   deleteQuestion,
+  getSingleQuestion,
 } = require("../controllers/questionsController");
 
-router.route("/").get(getAllQuestions).post(createQuestion);
-router.route("/:questionId").patch(updateQuestion).delete(deleteQuestion);
+const { authenticateUser, authorizePermissions } = require("../middleware/authentication");
+
+router
+  .route("/")
+  .get(authenticateUser, authorizePermissions("admin"), getAllQuestions)
+  .post(authenticateUser, authorizePermissions("admin"), createQuestion);
+router
+  .route("/:questionId")
+  .get(getSingleQuestion)
+  .patch(authenticateUser, authorizePermissions("admin"), updateQuestion)
+  .delete(authenticateUser, authorizePermissions("admin"), deleteQuestion);
 
 module.exports = router;
