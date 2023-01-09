@@ -22,7 +22,7 @@ const usersRouter = require("./routers/usersRouter");
 const rankingsRouter = require("./routers/rankingsRouter");
 const lobbyRouter = require("./routers/lobbyRouter");
 const questionsRouter = require("./routers/questionsRouter");
-const gamesRouter = require("./routers/gamesRouter");
+const historyRouter = require("./routers/historyRouter");
 const authenticationRouter = require("./routers/authenticationRouter");
 
 app.use(express.json());
@@ -33,7 +33,7 @@ app.use("/users", usersRouter);
 app.use("/rankings", rankingsRouter);
 app.use("/lobby", lobbyRouter);
 app.use("/questions", questionsRouter);
-app.use("/games", gamesRouter);
+app.use("/history", historyRouter);
 app.use("/authentication", authenticationRouter);
 
 app.use(errorHandlerMiddleware);

@@ -28,7 +28,7 @@ const updateUser = async (req, res) => {
   }
 
   if (newName) user.name = newName;
-  if (newEmail) user.password = newEmail;
+  if (newEmail) user.email = newEmail;
 
   await user.save();
 
