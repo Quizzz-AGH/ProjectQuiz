@@ -12,4 +12,5 @@ const getMultipleRandom = (arr, num) => {
   return shuffled.slice(0, num);
 };
 
-module.exports = { pickRandomQuestions };
+module.exports = { pickRandomQuestions, getMultipleRandom };
+

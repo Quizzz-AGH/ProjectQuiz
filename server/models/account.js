@@ -52,6 +52,7 @@ accountSchema.methods.createJWT = function () {
   );
 };
 
+
 accountSchema.methods.comparePassword = async function (canditatePassword) {
   const isMatch = await bcrypt.compare(canditatePassword, this.password);
   return isMatch;
