@@ -3,7 +3,7 @@ import { useLogin } from "../../hooks/useLogin";
 
 const LoginPanel = ({ setPanel }) => {
     const [form, setForm] = useState({
-        username: '',
+        email: '',
         password: ''
     });
     const { login, error, isLoading } = useLogin();
@@ -15,20 +15,20 @@ const LoginPanel = ({ setPanel }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await login(form.username, form.password);
+        await login(form.email, form.password);
 
         setPanel('main')();
     }
 
     return (
-        <form className={"signup"} onSubmit={handleSubmit}>
+        <form className={"signin"} onSubmit={handleSubmit}>
             <h3>Log in</h3>
 
-            <label>Username:</label>
+            <label>Email:</label>
             <input
                 type={"text"}
-                onChange={handleChange('username')}
-                value={form.username}
+                onChange={handleChange('email')}
+                value={form.emailA}
             />
 
             <label>Password:</label>

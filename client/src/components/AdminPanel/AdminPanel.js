@@ -1,53 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
-import QuestionLog from "../QuestionLog/QuestionLog";
+import AdminNavbar from "../AdminNavbar/AdminNavbar";
+import QuestionsAdminPanel from "../QuestionsAdminPanel/QuestionsAdminPanel";
+import UsersAdminPanel from "../UsersAdminPanel/UsersAdminPanel";
 
 function AdminPanel() {
 
-    const [questions, setQuestions] = useState([]);
+    const [panel, setPanel] = useState('questions');
 
-    useEffect(() => {
-        async function getQuestions() {
-            const response = await fetch('/questions', {
-                method: "GET"
-            });
-
-            if (!response.ok) {
-                window.alert(`An error occured: ${response.statusText}`);
-                return;
-            }
-
-            const questions = await response.json();
-            setQuestions(questions.questions);
+    const renderPanel = () => {
+        switch(panel) {
+            case 'questions':
+                return <QuestionsAdminPanel />;
+            case 'users':
+                return <UsersAdminPanel />;
+            default:
+                return null
         }
-
-        getQuestions();
-    }, [questions.length]);
-
-    function questionList() {
-        return questions.map((record) => {
-            return (
-                <QuestionLog question={record} />
-            );
-        });
     }
 
     return (
         <div>
-            <h3>Question List</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Content</th>
-                        <th>Answer 1</th>
-                        <th>Answer 2</th>
-                        <th>Answer 3</th>
-                        <th>Answer 4</th>
-                    </tr>
-                </thead>
-                <tbody>{questionList()}</tbody>
-            </table>
+            <AdminNavbar panel={panel}
+                         setPanel={setPanel} />
+            {renderPanel()}
         </div>
     )
 }

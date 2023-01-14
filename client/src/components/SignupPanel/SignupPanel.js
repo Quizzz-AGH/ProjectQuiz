@@ -4,6 +4,7 @@ import { useSignup } from "../../hooks/useSignup";
 const SignupPanel = ({ setPanel }) => {
     const [form, setForm] = useState({
         username: '',
+        email: '',
         password: ''
     });
     const { signup, error, isLoading } = useSignup();
@@ -15,7 +16,7 @@ const SignupPanel = ({ setPanel }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await signup(form.username, form.password);
+        await signup(form.username, form.email, form.password);
 
         setPanel('main')();
     }
@@ -29,6 +30,13 @@ const SignupPanel = ({ setPanel }) => {
                 type={"text"}
                 onChange={handleChange('username')}
                 value={form.username}
+            />
+
+            <label>Email:</label>
+            <input
+                type={"text"}
+                onChange={handleChange('email')}
+                value={form.email}
             />
 
             <label>Password:</label>

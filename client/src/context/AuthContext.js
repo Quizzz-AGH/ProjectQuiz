@@ -6,10 +6,11 @@ export const authReducer = (state, action) => {
     switch(action.type) {
         case 'login':
             return {
-                accountId: action.payload?.user?.accountId,
-                username: action.payload?.user?.username,
-                isAdmin: action.payload?.user?.isAdmin,
-                token: action.payload?.token
+                accountId: action.payload?.user?._id,
+                name: action.payload?.user?.name,
+                email: action.payload?.user?.email,
+                role: action.payload?.user?.role,
+                loggedIn: true
             };
         case 'logout':
             return { user: null };
@@ -21,9 +22,10 @@ export const authReducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, {
         accountId: null,
-        username: null,
-        isAdmin: null,
-        token: null
+        name: null,
+        email: null,
+        role: null,
+        loggedIn: false
     });
 
     useEffect(() => {
