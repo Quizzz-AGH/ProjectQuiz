@@ -1,15 +1,19 @@
 import React from "react";
 
-function UserLog(props) {
+function UserLog({ user, setUpdate, setDelete}) {
 
     return (
         <tr>
-            <td>{props.user._id}</td>
-            <td>{props.user.name}</td>
-            <td>{props.user.email}</td>
-            <td>{props.user.password}</td>
-            <td>{props.user.rankingScore}</td>
-            <td>{props.user.role}</td>
+            <td>{user._id}</td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.password}</td>
+            <td>{user.rankingScore}</td>
+            <td>{user.role}</td>
+            <td><button onClick={() => setUpdate(user)}>Zmień</button></td>
+            <td>
+                {user.role !== 'admin' && <button onClick={() => setDelete(user)}>x</button>}
+            </td>
         </tr>
     )
 }

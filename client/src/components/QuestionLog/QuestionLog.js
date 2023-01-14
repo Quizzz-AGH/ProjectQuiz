@@ -1,7 +1,7 @@
 import React from "react";
 
-function QuestionLog(props) {
-    const answers = props.question.answers;
+function QuestionLog({ question, setDelete, setUpdate }) {
+    const answers = question.answers;
 
     const listAnswers = [];
 
@@ -11,9 +11,11 @@ function QuestionLog(props) {
 
     return (
         <tr>
-            <td>{props.question._id}</td>
-            <td>{props.question.text}</td>
+            <td>{question._id}</td>
+            <td>{question.text}</td>
             {listAnswers}
+            <td><button onClick={() => setUpdate(question)}>Zmień</button></td>
+            <td><button onClick={() => setDelete(question)}>x</button></td>
         </tr>
     )
 }
