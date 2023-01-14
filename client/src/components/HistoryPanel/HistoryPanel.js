@@ -2,11 +2,11 @@ import React, {useEffect, useState} from "react";
 
 function HistoryPanel({setPanel}) {
 
-    const [ranking, setRanking] = useState([]);
+    const [games, setGames] = useState([])
 
     useEffect(() => {
-        async function getRanks() {
-            const response = await fetch('/rankings', {
+        async function getGames() {
+            const response = await fetch('/history/getMyHistory', {
                 method: "GET"
             });
 
@@ -15,20 +15,21 @@ function HistoryPanel({setPanel}) {
                 return;
             }
 
-            const ranks = await response.json();
-            setRanking(ranks);
+            const games = await response.json();
+            setGames(games.gameHistory);
         }
 
-        getRanks();
-    }, [ranking.length]);
+        getGames();
+    }, [games.length]);
 
-    function rankList() {
-        return ranking.map((record, index) => {
+    function gameList() {
+        return games?.map((record) => {
             return (
                 <tr>
-                    <td>{index + 1}</td>
-                    <td>{record?.name}</td>
-                    <td>{record?.rankingScore}</td>
+                    <td>{record.type}</td>
+                    <td>{record.opponentId}</td>
+                    <td>{record.length}</td>
+                    <td>{record.result}</td>
                 </tr>
             );
         });
@@ -37,18 +38,23 @@ function HistoryPanel({setPanel}) {
     return (
         <>
             <button onClick={setPanel('main')}>Powrót</button>
-            <table>
-                <thead>
-                <tr>
-                    <th>Pozycja</th>
-                    <th>Gracz</th>
-                    <th>Punkty rankingowe</th>
-                </tr>
-                </thead>
-                <tbody>
-                {rankList()}
-                </tbody>
-            </table>
+            {games.length === 0 ?
+                <div>Nie rozegrałeś żadnej gry w ostatnim czasie.</div>
+                :
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Typ</th>
+                        <th>Przeciwnik</th>
+                        <th>Długość</th>
+                        <th>Wynik</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {gameList()}
+                    </tbody>
+                </table>
+            }
         </>
     )
 }

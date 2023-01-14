@@ -5,6 +5,7 @@ import LoginPanel from "../LoginPanel/LoginPanel";
 import LobbyPanel from "../LobbyPanel/LobbyPanel";
 import SignupPanel from "../SignupPanel/SignupPanel";
 import RankingPanel from "../RankingPanel/RankingPanel";
+import HistoryPanel from "../HistoryPanel/HistoryPanel";
 
 function MainMenu() {
 
@@ -26,6 +27,8 @@ function MainMenu() {
                 return <LobbyPanel setPanel={updatePanel} />;
             case 'ranking':
                 return <RankingPanel setPanel={updatePanel} />;
+            case 'history':
+                return <HistoryPanel setPanel={updatePanel} />;
             default:
                 return null;
         }
