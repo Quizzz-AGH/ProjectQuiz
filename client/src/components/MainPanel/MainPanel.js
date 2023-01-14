@@ -12,7 +12,7 @@ function MainPanel({setPanel}) {
     return (
         <>
             <button onClick={setPanel('lobby')}>Graj</button>
-            { loggedIn && <button>Historia</button> }
+            { loggedIn && <button onClick={setPanel('history')}>Historia</button> }
             <button onClick={setPanel('ranking')}>Ranking</button>
             { role === 'admin' && <button onClick={() => navigate('/admin')}>Administracja</button> }
             { !loggedIn && <button onClick={setPanel('login')}>Zaloguj się</button> }
