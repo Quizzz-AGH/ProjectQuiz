@@ -26,21 +26,6 @@ const userSchema = new mongoose.Schema({
     require: [true, "password must be provided"],
     minlength: 6,
   },
-  gamesPlayed: {
-    type: Number,
-    require: [true, "gamesPlayed must be provided"],
-    default: 0,
-  },
-  gamesWon: {
-    type: Number,
-    require: [true, "gamesWon must be provided"],
-    default: 0,
-  },
-  rankingScore: {
-    type: Number,
-    require: [true, "rankingScore must be provided"],
-    default: 0,
-  },
   role: {
     type: String,
     enum: ["user", "admin", "guest"],
