@@ -6,7 +6,7 @@ function QuestionLog(props) {
     const listAnswers = [];
 
     for(let i = 0; i < 4; ++i) {
-        listAnswers.push(<td>{answers[i]}</td>)
+        listAnswers.push(<td>{answers[i]?.text}</td>)
     }
 
     return (
