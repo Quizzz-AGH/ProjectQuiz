@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from "react";
 
 import UserLog from "../UserLog/UserLog";
+import Popup from "../Popup/Popup";
+import UpdateUser from "./UpdateUser";
 
 function UsersAdminPanel() {
 
     const [users, setUsers] = useState([]);
+    const [updateUserPopup, setUpdateUserPopup] = useState(null);
+    const [deleteUserPopup, setDeleteUserPopup] = useState(null);
 
     useEffect(() => {
         async function getUsers() {
@@ -22,18 +26,42 @@ function UsersAdminPanel() {
         }
 
         getUsers();
-    }, [users.length]);
+    }, [users.length, updateUserPopup, deleteUserPopup]);
+
+    const handleDelete = async (user) => {
+        await fetch(`/users/${user._id}`, {
+            method: "DELETE"
+        })
+            .catch(error => {
+                window.alert(error);
+            })
+        setDeleteUserPopup(null);
+    }
 
     function userList() {
         return users.map((record) => {
             return (
-                <UserLog user={record} />
+                <UserLog user={record} setUpdate={setUpdateUserPopup} setDelete={setDeleteUserPopup} />
             );
         });
     }
 
     return (
         <div>
+            {updateUserPopup &&
+                <Popup>
+                    <UpdateUser updateUserPopup={updateUserPopup} close={() => setUpdateUserPopup(null)} />
+                </Popup>
+            }
+            {deleteUserPopup &&
+                <Popup>
+                    <div>Czy usunąć użytkownika {deleteUserPopup._id}? Nie można tego cofnąć.</div>
+                    <div>
+                        <button onClick={() => handleDelete(deleteUserPopup)}>Tak</button>
+                        <button onClick={() => setDeleteUserPopup(null)}>Nie</button>
+                    </div>
+                </Popup>
+            }
             <table>
                 <thead>
                 <tr>

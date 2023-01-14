@@ -16,19 +16,20 @@ function RankingPanel({setPanel}) {
             }
 
             const ranks = await response.json();
-            setRanking(ranks);
+            setRanking(ranks.rankings);
         }
 
         getRanks();
-    }, [ranking.length]);
+    }, []);
 
     function rankList() {
         return ranking.map((record, index) => {
             return (
                 <tr>
                     <td>{index + 1}</td>
-                    <td>{record?.name}</td>
+                    <td>{record?.user}</td>
                     <td>{record?.rankingScore}</td>
+                    <td>{record?.gamesWon}</td>
                 </tr>
             );
         });
@@ -42,7 +43,8 @@ function RankingPanel({setPanel}) {
                 <tr>
                     <th>Pozycja</th>
                     <th>Gracz</th>
-                    <th>Punkty rankingowe</th>
+                    <th>Punkty</th>
+                    <th>Wygrane</th>
                 </tr>
                 </thead>
                 <tbody>
