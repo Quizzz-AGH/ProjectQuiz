@@ -47,7 +47,11 @@ const joinNormalGame = async (req, res) => {
     throw new BadRequestError("invalid lobby code");
   }
 
-  if (candidateLobby.players.player2 !== null) {
+  if (candidateLobby.players.player1 === userId) {
+    throw new BadRequestError("you're already in this lobby");
+  }
+
+  if (candidateLobby.players.player2) {
     throw new BadRequestError("lobby is full");
   }
 
@@ -65,7 +69,7 @@ const getLobbyInfo = async (req, res) => {
   {
     const { id } = req.params;
 
-    candidateLobby = await Lobby.findOne({ _id: id });
+    let candidateLobby = await Lobby.findOne({ _id: id });
     if (!candidateLobby) {
       throw new BadRequestError("invalid lobby code");
     }

@@ -40,7 +40,7 @@ lobbySchema.pre("save", async function () {
   if (!this.isNew) return;
 
   this.questions = await pickRandomQuestions();
-  this.code = generateRandomLobbyCode();
+  this.code = await generateRandomLobbyCode();
 });
 
 const generateRandomLobbyCode = async () => {

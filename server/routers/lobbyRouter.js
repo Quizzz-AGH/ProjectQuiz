@@ -13,6 +13,7 @@ router.route("/normal").post(authenticateUser, authorizePermissions("admin", "us
 router.route("/ranked").post(authenticateUser, authorizePermissions("admin", "user", "guest"), createRankedGame);
 router.route("/join/:gameCode").post(authenticateUser, authorizePermissions("admin", "user", "guest"), joinNormalGame);
 router.route("/leave").get(leaveLobby);
-router.route("/:id").get(authenticateUser, authorizePermissions("admin"), getLobbyInfo);
+//router.route("/:id").get(authenticateUser, authorizePermissions("admin", "user", "guest"), getLobbyInfo);
+router.route("/:id").get(getLobbyInfo);
 
 module.exports = router;

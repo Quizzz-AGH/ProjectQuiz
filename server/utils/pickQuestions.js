@@ -1,7 +1,7 @@
 const Question = require("../models/question");
 const CustomError = require("../errors");
 
-const QUESTION_LIMIT = 1;
+const QUESTION_LIMIT = 3;
 
 const pickRandomQuestions = async () => {
   const questions = await Question.find({}).select({ _id: 1 });

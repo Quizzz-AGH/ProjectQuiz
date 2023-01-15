@@ -8,7 +8,7 @@ function AnswerBar({ answers }) {
         return [...Array(20)].map((_, i) => (
            <div className={'answer'}>
                {i in answers &&
-                   ((answers[i] === 'correct') ?
+                   ((answers[i]) ?
                         '✓' :
                         '✗')
                }
