@@ -1,29 +1,46 @@
 const mongoose = require("mongoose");
 
-const questionSchema = new mongoose.Schema({
+const singleAnswerSchema = new mongoose.Schema({
   text: {
     type: String,
-    required: [true, "question must be provided"],
+    required: [true, "answer must be provided"],
   },
-  answers: {
-    type: [String],
-    required: [true, "answers must be provided"],
+  correct: {
+    type: Boolean,
+    required: [true, "correct must be provided"],
+    default: false,
   },
-  correctAnswer: {
+  timesAnswered: {
     type: Number,
-    required: [true, "correctAnswer must be provided"],
-  },
-  questionStats: {
-    type: {
-      timesAsked: Number,
-      answeredWith: {
-        a1: Number,
-        a2: Number,
-        a3: Number,
-        a4: Number,
-      },
-    },
+    default: 0,
   },
 });
 
+const questionSchema = new mongoose.Schema(
+  {
+    text: {
+      type: String,
+      required: [true, "question must be provided"],
+    },
+    answers: {
+      type: [singleAnswerSchema],
+      validate: [arrayLimit, "answers must be between 2 and 4"],
+      required: [true, "answers must be provided"],
+    },
+    timesAsked: {
+      type: Number,
+      default: 0,
+    },
+    createdBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      required: [true, "createdBy must be provided"],
+    },
+  },
+  { timestamps: true }
+);
+
+function arrayLimit(val) {
+  return val.length <= 4 && val.length >= 2;
+}
 module.exports = mongoose.model("Question", questionSchema);

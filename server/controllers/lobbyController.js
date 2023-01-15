@@ -1,22 +1,20 @@
 const Lobby = require("../models/lobby");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
+const { attachCookiesToResponse, createTokenLobby } = require("../utils");
 
 const createNormalGame = async (req, res) => {
   const { userId } = req.user;
-  // tutaj z tokenu jwt bedziemy brali id użytkownika ktory tworzy grę i będziemy wrzucać to do bazki
-  console.log(req.user);
-
-  if (!userId) {
-    throw new BadRequestError("please provide proper lobby data");
-  }
 
   const newLobby = {
-    playersId: [userId],
+    players: { player1: userId },
+    createdBy: userId,
     gameType: "normal",
   };
 
   const lobby = await Lobby.create({ ...newLobby });
+  const tokenLobby = createTokenLobby(lobby);
+  attachCookiesToResponse({ res, data: tokenLobby, cookieName: "lobby" });
 
   //tutaj po stronie klienta będzie działo się przekierowanie na serwer gry
   res.status(StatusCodes.CREATED).json({ lobby });
@@ -33,37 +31,41 @@ const createRankedGame = async (req, res) => {
   };
 
   const lobby = await Lobby.create({ ...newLobby });
+  const tokenLobby = createTokenLobby(lobby);
+  attachCookiesToResponse({ res, data: tokenLobby, cookieName: "lobby" });
+
   res.status(StatusCodes.CREATED).json({ lobby });
 };
 
 const joinNormalGame = async (req, res) => {
   const { gameCode } = req.params;
   const { userId } = req.user;
-  // tutaj z tokenu jwt bedziemy brali id użytkownika ktory dołącza i będziemy wrzucać to do bazki
+  // userID z plików cookies
 
   candidateLobby = await Lobby.findOne({ code: gameCode });
   if (!candidateLobby) {
     throw new BadRequestError("invalid lobby code");
   }
 
-  // tutaj powinna byc walidacja czy to id juz tam w lobby nie istnieje ale na razie jest bez tego
-  if (candidateLobby.playersId >= 2) {
+  if (candidateLobby.players.player2 !== null) {
     throw new BadRequestError("lobby is full");
   }
 
-  candidateLobby.playersId.push(userId);
+  candidateLobby.players.player2 = userId;
   candidateLobby.save();
 
-  //tutaj po stronie klienta będzie działo się przekierowanie na serwer gry
+  const tokenLobby = createTokenLobby(candidateLobby);
+  attachCookiesToResponse({ res, data: tokenLobby, cookieName: "lobby" });
+
   res.status(StatusCodes.OK).json(candidateLobby);
 };
 
+// ta funkcja jest potrzebna żeby po stronie web socketa pobrać informacje o pytaniach do gry
 const getLobbyInfo = async (req, res) => {
   {
-    // BARDZO INSECURE ZAPYTANIE. DO ZMIANY W PÓŹNIEJSZYM ETAPIE
-    const { gameCode } = req.params;
+    const { id } = req.params;
 
-    candidateLobby = await Lobby.findOne({ code: gameCode });
+    candidateLobby = await Lobby.findOne({ _id: id });
     if (!candidateLobby) {
       throw new BadRequestError("invalid lobby code");
     }
@@ -72,9 +74,18 @@ const getLobbyInfo = async (req, res) => {
   }
 };
 
+const leaveLobby = async (req, res) => {
+  res.cookie("lobby", "leaveLobby", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ success: true });
+};
+
 module.exports = {
   createNormalGame,
   createRankedGame,
   joinNormalGame,
   getLobbyInfo,
+  leaveLobby,
 };

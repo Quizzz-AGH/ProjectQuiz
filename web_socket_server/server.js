@@ -4,11 +4,7 @@ const express = require("express");
 const socketio = require("socket.io");
 const cors = require("cors");
 
-const { getLobbyInfo } = require("./utils/wrapped-http-requests");
-const {
-  checkIfCorrectAnswer,
-  checkIfPlayerStillLives,
-} = require("./utils/questions-checker");
+const { getLobbyInfo, getQuestion, checkIfCorrectAnswer, checkIfPlayerStillLives } = require("./utils");
 
 // funkcja do brania informacji na temat lobby
 
@@ -55,8 +51,7 @@ io.on("connection", (socket) => {
     // check if player still plays
     let result = checkIfCorrectAnswer(info, gameInfo);
     if (result.verdict === false) {
-      if (!checkIfPlayerStillLives(result.playerId, gameInfo))
-        io.to(gameCode).emit("game-ended", result);
+      if (!checkIfPlayerStillLives(result.playerId, gameInfo)) io.to(gameCode).emit("game-ended", result);
     }
 
     // wysyłam do siebie że powinna nastąpić zmiana pytania
