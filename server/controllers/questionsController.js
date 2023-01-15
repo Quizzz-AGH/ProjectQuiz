@@ -22,8 +22,8 @@ const getAllQuestions = async (req, res) => {
 //this is the function that gets a single question with simple answers without any developer info
 const getSingleQuestion = async (req, res) => {
   const { questionId } = req.params;
-  const question = await Question.find({ _id: questionId }).select(
-    " -answers.correct -answers._id -answers.timesAnswered -timesAsked -__v -createdBy -createdAt -updatedAt"
+  const question = await Question.findOne({ _id: questionId }).select(
+    " -answers._id -answers.timesAnswered -timesAsked -__v -createdBy -createdAt -updatedAt"
   );
   if (!question) {
     throw new BadRequestError(`No question with id: ${questionId}`);
