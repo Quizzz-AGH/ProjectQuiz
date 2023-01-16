@@ -1,6 +1,21 @@
 const mongoose = require("mongoose");
 const Ranking = require("./ranking");
 
+// GameHistory Schema
+// example:
+// {
+//   "gameType": "ranked",
+//   "length": 30,
+//   "playerId": "5f9f9b9b9b9b9b9b9b9b9b9b",
+//   "opponentId": "5f9f9b9b9b9b9b9b9b9b9b9b",
+//   "result": "win",
+//   "eloBefore": 1000,
+//   "eloAfter": 1000,
+//   "createdAt": "2020-10-29T08:00:00.000Z",
+//   "updatedAt": "2020-10-29T08:00:00.000Z",
+//   "expireAt": "2020-10-29T08:00:00.000Z"
+// }
+
 const gameHistorySchema = new mongoose.Schema(
   {
     gameType: {
@@ -62,11 +77,9 @@ gameHistorySchema.pre("save", async function (next) {
   if (!userRanking) {
     const newRanking = await Ranking.create({ user: this.playerId });
     await updateUserAfterGame(this, newRanking);
-    newRanking.save();
     return next();
   }
   await updateUserAfterGame(this, userRanking);
-  userRanking.save();
   return next();
 });
 
@@ -75,18 +88,14 @@ gameHistorySchema.post("save", async function () {
 });
 
 const updateUserAfterGame = async function (gameHistory, userRanking) {
-  console.log(userRanking);
   if (gameHistory.result === "win") {
     userRanking.gamesWon += 1;
   }
+
   userRanking.gamesPlayed += 1;
-  console.log("1");
   userRanking.winPercentage = (userRanking.gamesWon / userRanking.gamesPlayed) * 100;
-  console.log("2");
   gameHistory.eloBefore = userRanking.rankingScore;
-  console.log("3");
   userRanking.rankingScore += gameHistory.eloChange;
-  console.log("4");
   await userRanking.save();
 };
 

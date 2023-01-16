@@ -6,5 +6,6 @@ module.exports = {
   getQuestion,
   getLobbyInfo,
   checkIfCorrectAnswer,
+  checkIfPlayerStillLives,
   verifyJwtToken,
 };

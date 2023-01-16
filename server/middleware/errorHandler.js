@@ -1,4 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
+
+// Error handler middleware
+// This middleware will be called when an error is thrown
+// It will check the error type and return the appropriate response
+// If the error is not one of the custom errors, it will return a generic error
 const errorHandlerMiddleware = (err, req, res, next) => {
   let customError = {
     // set default

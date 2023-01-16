@@ -3,6 +3,7 @@ const router = express.Router();
 const { getAllUsers, updateUser, deleteUser, updateUserPassword } = require("../controllers/usersController");
 const { authenticateUser, authorizePermissions } = require("../middleware/authentication");
 
+// Routes
 router.route("/").get(authenticateUser, authorizePermissions("admin"), getAllUsers);
 router.route("/updatePassword").patch(authenticateUser, authorizePermissions("admin", "guest"), updateUserPassword);
 router

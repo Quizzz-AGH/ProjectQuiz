@@ -2,6 +2,28 @@ const mongoose = require("mongoose");
 const { pickRandomQuestions } = require("../utils");
 const playersListSchema = require("./playersList");
 
+// Schema for lobby
+// lobby is created when a user creates a game
+// lobby is deleted when the game is expired
+// example of lobby:
+// {
+//   "code": 1234,
+//   "players": {
+//     "player1": "5f9f5b9b9c9d9e0a10c9d9e0",
+//     "player2": "5f9f5b9b9c9d9e0a10c9d9e1"
+//   },
+//   "gameType": "normal",
+//   "questions": [
+//     "5f9f5b9b9c9d9e0a10c9d9e2",
+//     "5f9f5b9b9c9d9e0a10c9d9e3",
+//     "5f9f5b9b9c9d9e0a10c9d9e4",
+//     "5f9f5b9b9c9d9e0a10c9d9e5",
+//     "5f9f5b9b9c9d9e0a10c9d9e6"
+//   ],
+//   "createdBy": "5f9f5b9b9c9d9e0a10c9d9e0",
+//   "expiresAt": "2020-11-01T09:00:00.000Z"
+// }
+
 const lobbySchema = new mongoose.Schema(
   {
     code: {
@@ -36,6 +58,8 @@ const lobbySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// this function is called before saving (creating, modifing etc.) the lobby
+// if the lobby is new (not modified) then it will generate random questions and code
 lobbySchema.pre("save", async function () {
   if (!this.isNew) return;
 
@@ -43,6 +67,7 @@ lobbySchema.pre("save", async function () {
   this.code = await generateRandomLobbyCode();
 });
 
+// generate random code for lobby
 const generateRandomLobbyCode = async () => {
   const actualLobbys = await mongoose.model("Lobby", lobbySchema).find();
   let randomCode = -1;

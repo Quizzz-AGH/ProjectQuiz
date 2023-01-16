@@ -1,6 +1,10 @@
 const CustomError = require("../errors");
 const { isTokenValid } = require("../utils/jwt");
 
+// middleware to authenticate user
+// if user is not authenticated, throw error
+// if user is authenticated, add user to req.user
+// and call next
 const authenticateUser = async (req, res, next) => {
   const { token } = req.signedCookies;
   if (!token) {
@@ -16,6 +20,9 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
+// middleware to authorize user permissions
+// if user is not authorized, throw error
+// authorize permissions based on user role
 const authorizePermissions = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

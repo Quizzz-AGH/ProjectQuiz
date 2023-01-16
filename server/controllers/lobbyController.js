@@ -3,6 +3,9 @@ const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
 const { attachCookiesToResponse, createTokenLobby } = require("../utils");
 
+// create new lobby for normal game
+// for all users
+// attach lobby token to response cookies
 const createNormalGame = async (req, res) => {
   const { userId } = req.user;
 
@@ -20,6 +23,9 @@ const createNormalGame = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ lobby });
 };
 
+// create new lobby for ranked game
+// for all users except guests
+// attach lobby token to response cookies
 const createRankedGame = async (req, res) => {
   const { playerId } = req.body;
   if (!playerId) {
@@ -37,6 +43,9 @@ const createRankedGame = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ lobby });
 };
 
+// join existing lobby for normal game
+// for all users
+// attach lobby token to response cookies
 const joinNormalGame = async (req, res) => {
   const { gameCode } = req.params;
   const { userId } = req.user;
@@ -64,7 +73,8 @@ const joinNormalGame = async (req, res) => {
   res.status(StatusCodes.OK).json(candidateLobby);
 };
 
-// ta funkcja jest potrzebna żeby po stronie web socketa pobrać informacje o pytaniach do gry
+// this function is used to get info about lobby on websocket connection
+// for all users
 const getLobbyInfo = async (req, res) => {
   {
     const { id } = req.params;
@@ -78,6 +88,7 @@ const getLobbyInfo = async (req, res) => {
   }
 };
 
+// this function is used to leave lobby and clear cookies
 const leaveLobby = async (req, res) => {
   res.cookie("lobby", "leaveLobby", {
     httpOnly: true,

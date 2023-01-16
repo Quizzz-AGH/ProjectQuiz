@@ -3,6 +3,7 @@ const router = express.Router();
 const { saveGameHistory, getMyAllGameHistory, getSingleGameHistory } = require("../controllers/historyController");
 const { authenticateUser, authorizePermissions } = require("../middleware/authentication");
 
+// Routes
 router.route("/save").post(authenticateUser, authorizePermissions("admin", "user", "guest"), saveGameHistory);
 router
   .route("/getMyHistory")

@@ -1,5 +1,16 @@
 const mongoose = require("mongoose");
 
+// this is a subdocument schema
+// it is used to create a subdocument in the questionSchema
+// each subdocument will have a text, correct, timesAnswered
+// the correct property is used to determine if the answer is correct or not
+// example:
+// {
+//   "text": "Paris",
+//   "correct": true,
+//   "timesAnswered": 0
+// }
+
 const singleAnswerSchema = new mongoose.Schema({
   text: {
     type: String,
@@ -15,6 +26,37 @@ const singleAnswerSchema = new mongoose.Schema({
     default: 0,
   },
 });
+
+// this is the main schema
+// it is used to create a document in the questions collection
+// example:
+// {
+//   "text": "What is the capital of France?",
+//   "answers": [
+//     {
+//       "text": "Paris",
+//       "correct": true,
+//       "timesAnswered": 0
+//     },
+//     {
+//       "text": "London",
+//       "correct": false,
+//       "timesAnswered": 0
+//     },
+//     {
+//       "text": "Berlin",
+//       "correct": false,
+//       "timesAnswered": 0
+//     },
+//     {
+//       "text": "Madrid",
+//       "correct": false,
+//       "timesAnswered": 0
+//     }
+//   ],
+//   "timesAsked": 0,
+//   "createdBy": "5f9f1b0b8b0b2c2b1c8c1c1c"
+// }
 
 const questionSchema = new mongoose.Schema(
   {
@@ -40,6 +82,9 @@ const questionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// this is a custom validator
+// it is used to validate the answers array
+// the answers array must have between 2 and 4 elements
 function arrayLimit(val) {
   return val.length <= 4 && val.length >= 2;
 }

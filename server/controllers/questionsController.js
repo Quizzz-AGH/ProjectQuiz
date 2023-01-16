@@ -2,6 +2,8 @@ const Question = require("../models/question");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
 
+// create a new question
+// for admin only
 const createQuestion = async (req, res) => {
   const question = await Question.create({ ...req.body, createdBy: req.user.userId });
   res.status(StatusCodes.CREATED).json({ question });
@@ -19,7 +21,8 @@ const getAllQuestions = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ questions });
 };
 
-//this is the function that gets a single question with simple answers without any developer info
+// this is the function that gets a single question with simple answers without any developer info
+// it is used in the game
 const getSingleQuestion = async (req, res) => {
   const { questionId } = req.params;
   const question = await Question.findOne({ _id: questionId }).select(
@@ -31,6 +34,9 @@ const getSingleQuestion = async (req, res) => {
   res.status(StatusCodes.OK).json({ question });
 };
 
+// update a question
+// for admin only
+// example body: as in createQuestion
 const updateQuestion = async (req, res) => {
   const { questionId } = req.params;
   const question = await Question.findOneAndUpdate({ _id: questionId }, req.body, {
@@ -43,6 +49,8 @@ const updateQuestion = async (req, res) => {
   res.status(StatusCodes.OK).json({ question });
 };
 
+// delete a question
+// for admin only
 const deleteQuestion = async (req, res) => {
   const { questionId } = req.params;
   const question = await Question.findOneAndDelete({ _id: questionId });

@@ -2,6 +2,9 @@ const GameHistory = require("../models/gameHistory");
 const CustomError = require("../errors");
 const { checkPermissions } = require("../utils");
 
+// save game history
+// for user, admin
+// it also updates the user's elo because of the pre save hook in the model
 saveGameHistory = async (req, res) => {
   const { playerId, opponentId } = req.body;
   if (playerId === opponentId) {
@@ -11,6 +14,8 @@ saveGameHistory = async (req, res) => {
   res.status(200).json({ gameHistory });
 };
 
+// get all game history for the user
+// for user, admin (admin can get all game history)
 getMyAllGameHistory = async (req, res) => {
   const { userId } = req.user;
   const gameHistory = await GameHistory.find({ playerId: userId }).sort({ createdAt: -1 });
@@ -18,6 +23,9 @@ getMyAllGameHistory = async (req, res) => {
   res.status(200).json({ gameHistory, count: gameHistory.length });
 };
 
+// get single game history
+// for user, admin
+// used for displaying the game history
 getSingleGameHistory = async (req, res) => {
   const {
     user,

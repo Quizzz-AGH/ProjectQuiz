@@ -1,5 +1,8 @@
 const Rankings = require("../models/ranking");
 
+// returns all rankings and points to the user's ranking
+// for the purpose of displaying the leaderboard
+// and the user's position on it
 const getAllRankings = async (req, res) => {
   const { user } = req;
 

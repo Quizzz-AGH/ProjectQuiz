@@ -3,6 +3,9 @@ const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const { attachCookiesToResponse, createTokenUser, generateGuestEmail } = require("../utils");
 
+// register a new user
+// if it's the first account, make it admin
+// attach token to response cookies
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -20,6 +23,8 @@ const register = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ success: true, user });
 };
 
+// login user
+// attach token to response cookies
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -40,6 +45,8 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ success: true, user });
 };
 
+// logout user
+// clear token from response cookies
 const logout = async (req, res) => {
   res.cookie("token", "logout", {
     httpOnly: true,
@@ -48,6 +55,9 @@ const logout = async (req, res) => {
   res.status(StatusCodes.OK).json({ success: true });
 };
 
+// login as guest user
+// create a new guest user that expires in x hour
+// attach token to response cookies
 const loginAsGuest = async (req, res) => {
   const name = "Guest";
   const email = generateGuestEmail();

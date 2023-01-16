@@ -2,6 +2,11 @@ const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
 const { attachCookiesToResponse, createTokenUser, generateGuestEmail } = require("../utils");
 
+// return all users from database,
+// if query params are provided, return only users that match the query
+// if no users are found, return empty array
+// for admin only
+
 const getAllUsers = async (req, res) => {
   const { accountId, username } = req.query;
   const querryObject = {};
@@ -17,6 +22,9 @@ const getAllUsers = async (req, res) => {
   res.status(200).json({ users });
 };
 
+// update user data
+// if user is updating his own data, update the token
+// for admin and user
 const updateUser = async (req, res) => {
   const { accountId } = req.params;
   const { name: newName, email: newEmail } = req.body;
@@ -39,6 +47,8 @@ const updateUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user });
 };
 
+// update user password
+// for admin and user
 const updateUserPassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
@@ -59,6 +69,9 @@ const updateUserPassword = async (req, res) => {
   res.status(StatusCodes.OK).json({ success: true });
 };
 
+// delete user
+// if user is deleting his own account, create guest account
+// for admin and user
 const deleteUser = async (req, res) => {
   const { accountId } = req.params;
   const user = await User.findOneAndDelete({ _id: accountId });

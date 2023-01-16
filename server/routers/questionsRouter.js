@@ -10,6 +10,7 @@ const {
 
 const { authenticateUser, authorizePermissions } = require("../middleware/authentication");
 
+// Routes
 router
   .route("/")
   .get(authenticateUser, authorizePermissions("admin"), getAllQuestions)

@@ -14,8 +14,13 @@ const server = http.createServer(app);
 // database connection
 const connectDatabase = require("./database/connect");
 
-// middleware
+// middleware functions
 const errorHandlerMiddleware = require("./middleware/errorHandler");
+const notFound = require("./middleware/notFound");
+
+app.use(express.json());
+app.use(cors());
+app.use(cookieParser(process.env.JWT_SECRET));
 
 // routers
 const usersRouter = require("./routers/usersRouter");
@@ -25,10 +30,6 @@ const questionsRouter = require("./routers/questionsRouter");
 const historyRouter = require("./routers/historyRouter");
 const authenticationRouter = require("./routers/authenticationRouter");
 
-app.use(express.json());
-app.use(cors());
-app.use(cookieParser(process.env.JWT_SECRET));
-
 app.use("/users", usersRouter);
 app.use("/rankings", rankingsRouter);
 app.use("/lobby", lobbyRouter);
@@ -37,11 +38,14 @@ app.use("/history", historyRouter);
 app.use("/authentication", authenticationRouter);
 
 app.use(errorHandlerMiddleware);
+app.use(notFound);
 
 app.get("/", (req, res) => {
   res.send("test");
 });
 
+// start server callback function
+// this is the function that starts the server
 const start = async () => {
   try {
     await connectDatabase(process.env.MONGO_URI);
@@ -51,4 +55,5 @@ const start = async () => {
   }
 };
 
+// start the server
 start();
