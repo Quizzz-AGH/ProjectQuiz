@@ -27,7 +27,7 @@ const sendableQuestion = (question) => {
 };
 
 io.on("connection", (socket) => {
-  const gameInfo = { time: 120 };
+  const gameInfo = { time: 300 };
 
   // join game
   socket.on("join-game", async ({ playerId, lobbyId }) => {
