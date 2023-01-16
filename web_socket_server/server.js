@@ -70,7 +70,7 @@ io.on("connection", (socket) => {
 
       // change question
       gameInfo.player.currentQuestion++;
-      if (gameInfo.player.currentQuestion < 3) {
+      if (gameInfo.player.currentQuestion < 20) {
         const curr = gameInfo.player.currentQuestion;
         const q = (await getQuestion(gameInfo.questions[curr])).question;
         socket.emit("question-changed", sendableQuestion(q));
