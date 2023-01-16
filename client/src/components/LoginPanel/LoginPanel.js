@@ -22,23 +22,36 @@ const LoginPanel = ({ setPanel }) => {
 
     return (
         <form className={"signin"} onSubmit={handleSubmit}>
-            <h3>Log in</h3>
+            <h3>Zaloguj się</h3>
 
-            <label>Email:</label>
-            <input
-                type={"text"}
-                onChange={handleChange('email')}
-                value={form.emailA}
-            />
+            <div>
+                <label>Email:</label>
+                <input
+                    type={"text"}
+                    onChange={handleChange('email')}
+                    value={form.emailA}
+                />
+            </div>
 
-            <label>Password:</label>
-            <input
-                type={"password"}
-                onChange={handleChange('password')}
-                value={form.password}
-            />
+            <div>
+                <label>Hasło:</label>
+                <input
+                    type={"password"}
+                    onChange={handleChange('password')}
+                    value={form.password}
+                />
+            </div>
 
-            <button disabled={isLoading}>Login</button>
+            <div>
+                <input
+                    type={'submit'}
+                    value={'Zaloguj się'}
+                    disabled={isLoading} />
+            </div>
+            <div>
+                <button onClick={setPanel('main')}>Wróć</button>
+            </div>
+
             { error && <div className={'error'}>{error}</div> }
         </form>
     )
