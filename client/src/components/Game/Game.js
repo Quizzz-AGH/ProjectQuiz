@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 
 function Game() {
 
-    const [time, setTime] = useState(120);
+    const [time, setTime] = useState(300);
     const [questionId, setQuestionId] = useState(0);
     const [question, setQuestion] = useState("");
     const [answers, setAnswers] = useState([])
@@ -69,7 +69,7 @@ function Game() {
             </Popup>
             }
             <div className={'backdrop'}>
-                <TimeBar value={time} maxValue={120}/>
+                <TimeBar value={time} maxValue={300}/>
                 <div className={'questionBox'}>{question}</div>
                 <AnswerBox pickAnswer={pickAnswer} answers={answers} />
                 <AnswerBar answers={ownAnswers} />
