@@ -15,3 +15,4 @@
     ```sh
     npm start
     ```
+3. Wejdź na stronę `http://localhost:3000`, żeby włączyć klienta aplikacji.
