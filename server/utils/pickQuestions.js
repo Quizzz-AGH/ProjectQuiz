@@ -1,7 +1,7 @@
 const Question = require("../models/question");
 const CustomError = require("../errors");
 
-const QUESTION_LIMIT = 3;
+const QUESTION_LIMIT = 20;
 
 // pick random questions from the database
 // return an array of question ids
